@@ -7,6 +7,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.io.FileHandler;
 
+
 import java.io.File;
 import java.io.IOException;
 
@@ -16,7 +17,8 @@ public class Hooks {
 
     @AfterStep
     public void takeScreenShot(){
-        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        TakesScreenshot ts = (TakesScreenshot)driver;
+        File srcFile = ts.getScreenshotAs(OutputType.FILE);
         File destFile = new File(System.getProperty("user.dir")+"/target/Screenshots/"+DriverManager.browser.get()+"screenshot"+count+".png");
         try {
             FileHandler.copy(srcFile, destFile);

@@ -10,25 +10,25 @@ import java.time.Duration;
 
 public class DriverManager {
     public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-    public static ThreadLocal<String> browser = new ThreadLocal<>() ;
+    public static ThreadLocal<String> browser = new ThreadLocal<>();
 
-    public static void initiateDriver() {
-            if (browser.get().equals("chrome")) {
-                WebDriverManager.chromedriver().setup();
-                driver.set(new ChromeDriver());
+    public static void initiateDriver(String browser) {
+        if (browser.equals("chrome")) {
+            WebDriverManager.chromedriver().setup();
+            driver.set(new ChromeDriver());
 
-            } else if (browser.get().equals("safari")) {
-                driver.set(new SafariDriver());
-            }
-            else
-            {
-                Assert.fail(browser.get() + " provided is not valid");
-            }
-            driver.get().manage().window().maximize();
-            driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        } else if (browser.equals("safari")) {
+            driver.set(new SafariDriver());
+        } else {
+            Assert.fail(browser + " provided is not valid");
+        }
+        DriverManager.browser.set(browser);
+
+        driver.get().manage().window().maximize();
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
     }
-    public static void quitDriver(){
+
+    public static void quitDriver() {
         driver.get().quit();
     }
-
 }
