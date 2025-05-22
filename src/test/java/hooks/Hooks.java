@@ -19,6 +19,19 @@ public class Hooks {
     public void takeScreenShot(){
         TakesScreenshot ts = (TakesScreenshot)driver;
         File srcFile = ts.getScreenshotAs(OutputType.FILE);
+        File folder = new File(System.getProperty("user.dir")+"/target/Screenshots");
+        if (!folder.exists()) {
+            boolean created = folder.mkdirs(); // Use mkdirs() to create parent dirs if needed
+            if (created) {
+                System.out.println("Folder created: " + folder.getAbsolutePath());
+            } else {
+                System.out.println("Failed to create folder.");
+            }
+        } else {
+            System.out.println("Folder already exists: " + folder.getAbsolutePath());
+        }
+
+
         File destFile = new File(System.getProperty("user.dir")+"/target/Screenshots/"+DriverManager.browser.get()+"screenshot"+count+".png");
         try {
             FileHandler.copy(srcFile, destFile);
@@ -28,5 +41,4 @@ public class Hooks {
             e.printStackTrace();
         }
     }
-
 }

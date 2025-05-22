@@ -1,7 +1,6 @@
 package steps;
 
 import driver.DriverManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utils.Locators;
 
