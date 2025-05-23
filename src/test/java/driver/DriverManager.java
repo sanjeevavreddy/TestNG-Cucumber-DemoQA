@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
@@ -17,8 +18,8 @@ public class DriverManager {
     public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     public static ThreadLocal<String> browser = new ThreadLocal<>();
 
-    public static void initiateDriver(String browser, String grid) {
-        if (grid.isEmpty()) {
+    public static void initiateDriver(String browser, String gridURL) {
+        if (gridURL.isEmpty()) {
             if (browser.equals("chrome")) {
                 WebDriverManager.chromedriver().setup();
                 driver.set(new ChromeDriver());
@@ -29,27 +30,21 @@ public class DriverManager {
                 Assert.fail(browser + " provided is not valid");
             }
         } else {
-            if (browser.equals("chrome")) {
-                URL gridUrl = null;
-                try {
-                    gridUrl = new URL(grid);
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                }
-                ChromeOptions options = new ChromeOptions();
-                driver.set(new RemoteWebDriver(gridUrl, options));
-            } else if (browser.equals("firefox")) {
-                URL gridUrl = null;
-                try {
-                    gridUrl = new URL(grid);
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                }
-                FirefoxOptions options = new FirefoxOptions();
-                driver.set(new RemoteWebDriver(gridUrl, options));
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            if (browser.equalsIgnoreCase("chrome")) {
+                capabilities.setBrowserName("chrome");
+            } else if (browser.equalsIgnoreCase("firefox")) {
+                capabilities.setBrowserName("firefox");
             } else {
                 Assert.fail(browser + " provided is not valid");
             }
+            URL gridUrl;
+            try {
+                gridUrl = new URL(gridURL);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+            driver.set(new RemoteWebDriver(gridUrl, capabilities));
         }
         DriverManager.browser.set(browser);
         driver.get().manage().window().maximize();

@@ -7,7 +7,7 @@ Feature: Fill Form
 
     Examples:
       | FirstName | LastName |
-      | Sanjeeva  | Reddy    |
+      | Sanjeev   | Reddy    |
 
   @Demo1
   Scenario Outline: Fill Form1
@@ -16,4 +16,4 @@ Feature: Fill Form
 
     Examples:
       | FirstName | LastName |
-      | Sanjeeva  | Reddy    |
+      | Sanjeev   | Reddy    |

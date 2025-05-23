@@ -16,9 +16,9 @@ import org.testng.annotations.*;
 public class TestRunner extends AbstractTestNGCucumberTests {
 
     @BeforeClass
-    @Parameters({"browser","grid"})
-    public void initiateDriver(String browser,@Optional("") String grid) {
-        DriverManager.initiateDriver(browser,grid);
+    @Parameters({"browser","gridURL"})
+    public void initiateDriver(String browser,@Optional("") String gridURL) {
+        DriverManager.initiateDriver(browser,gridURL);
     }
     @AfterClass
     public void quitDriver() {
