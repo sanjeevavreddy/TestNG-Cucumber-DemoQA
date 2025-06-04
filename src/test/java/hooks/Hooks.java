@@ -1,11 +1,17 @@
 package hooks;
 
 import driver.DriverManager;
+import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
+import io.cucumber.java.Before;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.io.FileHandler;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 
 
 import java.io.File;
@@ -14,6 +20,15 @@ import java.io.IOException;
 public class Hooks {
     WebDriver driver = DriverManager.driver.get();
     int count = 1;
+    @Before
+    public void initiateDriver() {
+        DriverManager.initiateDriver();
+    }
+
+    @After
+    public void quitDriver() {
+        DriverManager.quitDriver();
+    }
 
     @AfterStep
     public void takeScreenShot(){

@@ -1,13 +1,11 @@
-<suite name="SeleniumTestSuite" parallel="tests" thread-count="2">
+<suite name="SeleniumTestSuite" parallel="classes" thread-count="4">
     <test name="ChromeTest">
-        <parameter name="browser" value="chrome"/>
         <classes>
+            <parameter name="browser" value="chrome"/>
             <class name="runners.TestRunner"/>
         </classes>
-    </test>
-    <test name="SafariTest">
-        <parameter name="browser" value="firefox"/>
         <classes>
+            <parameter name="browser" value="firefox"/>
             <class name="runners.TestRunner"/>
         </classes>
     </test>

@@ -17,13 +17,14 @@ import java.time.Duration;
 public class DriverManager {
     public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     public static ThreadLocal<String> browser = new ThreadLocal<>();
+    public static ThreadLocal<String> gridURL = new ThreadLocal<>();
 
-    public static void initiateDriver(String browser, String gridURL) {
-        if (gridURL.isEmpty()) {
-            if (browser.equals("chrome")) {
+    public static void initiateDriver() {
+        if (gridURL.get().isEmpty()) {
+            if (browser.get().equals("chrome")) {
                 WebDriverManager.chromedriver().setup();
                 driver.set(new ChromeDriver());
-            } else if (browser.equals("firefox")) {
+            } else if (browser.get().equals("firefox")) {
                 WebDriverManager.firefoxdriver().setup();
                 driver.set(new FirefoxDriver());
             } else {
@@ -31,27 +32,30 @@ public class DriverManager {
             }
         } else {
             DesiredCapabilities capabilities = new DesiredCapabilities();
-            if (browser.equalsIgnoreCase("chrome")) {
+            if (browser.get().equalsIgnoreCase("chrome")) {
                 capabilities.setBrowserName("chrome");
-            } else if (browser.equalsIgnoreCase("firefox")) {
+            } else if (browser.get().equalsIgnoreCase("firefox")) {
                 capabilities.setBrowserName("firefox");
             } else {
                 Assert.fail(browser + " provided is not valid");
             }
             URL gridUrl;
             try {
-                gridUrl = new URL(gridURL);
+                gridUrl = new URL(gridURL.get());
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
             driver.set(new RemoteWebDriver(gridUrl, capabilities));
         }
-        DriverManager.browser.set(browser);
+        DriverManager.browser.set(browser.get());
         driver.get().manage().window().maximize();
         driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
     }
 
     public static void quitDriver() {
-        driver.get().quit();
+        if (driver.get() != null) {
+            driver.get().quit();
+            driver.remove();
+        }
     }
 }

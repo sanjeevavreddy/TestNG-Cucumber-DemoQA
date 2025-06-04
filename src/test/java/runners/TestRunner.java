@@ -1,6 +1,7 @@
 package runners;
 
 import driver.DriverManager;
+import io.cucumber.java.Before;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import org.testng.annotations.*;
@@ -8,20 +9,22 @@ import org.testng.annotations.*;
 
 @CucumberOptions(
         features = "src/test/Features",
-        glue = {"stepdefinitions","hooks"},
-        plugin = {"html:target/cucumber-reports/cucumber-pretty/report.html"},
+        glue = {"stepdefinitions", "hooks"},
+        plugin = {"pretty", "html:target/cucumber-reports/cucumber-pretty/report.html"},
+        monochrome = true,
         tags = ""
-
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
 
-    @BeforeClass
-    @Parameters({"browser","gridURL"})
-    public void initiateDriver(String browser,@Optional("") String gridURL) {
-        DriverManager.initiateDriver(browser,gridURL);
+    @BeforeTest
+    @Parameters({"browser", "gridURL"})
+    public void initiateDriver(String browser, @Optional("") String gridURL) {
+        DriverManager.browser.set(browser);
+        DriverManager.gridURL.set(gridURL);
     }
-    @AfterClass
-    public void quitDriver() {
-        DriverManager.quitDriver();
+    @Override
+    @DataProvider(parallel = true)
+    public Object[][] scenarios() {
+        return super.scenarios();
     }
 }
