@@ -3,38 +3,31 @@ package driver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
+
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.io.FileHandler;
+import org.testng.Assert;
 
 public class MobileTest {
-    public static void main(String[] args) throws MalformedURLException {
-        String USERNAME = "aveejnasv_5UznbDiG4wq";
-        String ACCESS_KEY = "XgW3RWoQ1gMtNY2qwypa";
-        String BS_URL = "https://" + USERNAME + ":" + ACCESS_KEY + "@hub-cloud.browserstack.com/wd/hub";
-
-        Map<String, Object> browserstackOptions = new HashMap<>();
-
-        browserstackOptions.put("deviceName", "Google Pixel 7");
-        browserstackOptions.put("osVersion", "13.0");
-        browserstackOptions.put("projectName", "Appium Java Project");
-        browserstackOptions.put("buildName", "Build 1");
-        browserstackOptions.put("sessionName", "Calculator Test");
-
-
+    public static void main(String[] args) {
         UiAutomator2Options options = new UiAutomator2Options();
-        options.setPlatformName("android");
-        options.setAutomationName("UiAutomator2");
-        options.setCapability("bstack:options", browserstackOptions);
-
-
-        AndroidDriver driver = new AndroidDriver(new URL(BS_URL), options);
+        options.setDeviceName("emulator-5554");
+        URL url = null;
+        try {
+            url = new URL("http://0.0.0.0:4723/wd/hub");
+        } catch (MalformedURLException e) {
+            Assert.fail(e.toString());
+        }
+        AndroidDriver driver = new AndroidDriver(url, options);
 
         WebElement ele = driver.findElement(By.xpath("//android.widget.TextView[@content-desc='Play Store']"));
 
@@ -42,7 +35,31 @@ public class MobileTest {
         action.moveToElement(ele);
         action.click().perform();
 
-
         driver.quit();
+    }
+
+    private static void takeScreenShot(AndroidDriver driver) {
+
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File srcFile = ts.getScreenshotAs(OutputType.FILE);
+        File folder = new File(System.getProperty("user.dir") + "/target/Screenshots");
+        if (!folder.exists()) {
+            boolean created = folder.mkdirs();
+            if (created) {
+                System.out.println("Folder created: " + folder.getAbsolutePath());
+            } else {
+                System.out.println("Failed to create folder.");
+            }
+        } else {
+            System.out.println("Folder already exists: " + folder.getAbsolutePath());
+        }
+
+        File destFile = new File(System.getProperty("user.dir") + "/target/Screenshots/" + "screenshot.png");
+        try {
+            FileHandler.copy(srcFile, destFile);
+        }catch (IOException e){
+            Assert.fail(e.toString());
+        }
+        System.out.println("Screenshot saved at: " + destFile.getAbsolutePath());
     }
 }

@@ -3,31 +3,24 @@ package stepdefinitions;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import driver.DriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import steps.FillForm;
-
-import java.io.IOException;
+import pages.FillFormPage;
+import utils.Log;
 
 
 public class FillFormDef {
 
-    FillForm fillForm = new FillForm();
-
-    public FillFormDef(){
-    }
-
+    FillFormPage fillFormPage = new FillFormPage();
 
     @Given("user launch the url")
     public void userLaunchTheUrl() {
-        fillForm.userLaunchTheUrl();
+        fillFormPage.userLaunchTheUrl();
     }
 
     @Then("user enter First and last name as {string} and {string}")
     public void userEnterFirstAndLastNameAsAnd(String firstName, String LastName) {
-        fillForm.userEnterFirstName(firstName);
-        fillForm.userEnterName(LastName);
+        Log.info("Entering username and password");
+        fillFormPage.userEnterFirstName(firstName);
+        fillFormPage.userEnterName(LastName);
     }
 
 }
