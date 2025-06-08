@@ -15,7 +15,6 @@ import utils.TestParameters;
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
 
-
     @BeforeTest(alwaysRun = true)
     @Parameters({"browser", "gridURL"})
     public void initiateDriver(String browser, @Optional("") String gridURL){

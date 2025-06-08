@@ -11,7 +11,6 @@ public class FillFormPage {
 
     public FillFormPage() {
         this.driver = DriverManager.getDriver();
-
     }
 
     public void userEnterFirstName(String firstName) {

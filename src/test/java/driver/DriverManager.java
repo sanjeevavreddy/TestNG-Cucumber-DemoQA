@@ -16,7 +16,6 @@ import java.time.Duration;
 public class DriverManager {
     public static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-
     public static void initiateDriver() {
         if (TestParameters.getGridURL().isEmpty()) {
             if (TestParameters.getBrowser().equals("chrome")) {
