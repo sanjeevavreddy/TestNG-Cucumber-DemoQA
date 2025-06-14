@@ -2,11 +2,13 @@ package pages;
 
 import driver.DriverManager;
 import org.openqa.selenium.WebDriver;
+import utils.CommonFunctions;
 import utils.Locators;
 
 public class FillFormPage {
 
     Locators locators = new Locators();
+    CommonFunctions commonFunctions = new CommonFunctions();
     private WebDriver driver;
 
     public FillFormPage() {
@@ -14,11 +16,11 @@ public class FillFormPage {
     }
 
     public void userEnterFirstName(String firstName) {
-        driver.findElement(locators.getLocator("FirstName")).sendKeys(firstName);
+        commonFunctions.findElement(locators.getLocator("FirstName")).sendKeys(firstName);
     }
 
     public void userEnterName(String LastName) {
-        driver.findElement(locators.getLocator("LastName")).sendKeys(LastName);
+        commonFunctions.findElement(locators.getLocator("LastName")).sendKeys(LastName);
     }
 
     public void userLaunchTheUrl() {

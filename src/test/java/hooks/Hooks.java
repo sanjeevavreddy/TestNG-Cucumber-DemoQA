@@ -8,7 +8,6 @@ import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.io.FileHandler;
-import pages.BasePage;
 import utils.TestParameters;
 
 import java.io.File;
@@ -35,7 +34,7 @@ public class Hooks {
         File srcFile = ts.getScreenshotAs(OutputType.FILE);
         File folder = new File(System.getProperty("user.dir") + "/target/Screenshots/"+TestParameters.getBrowser()+"/"+scenario.getName().replaceAll("\\s+",""));
         if (!folder.exists()) {
-            boolean created = folder.mkdirs(); // Use mkdirs() to create parent dirs if needed
+            boolean created = folder.mkdirs();
             if (created) {
                 System.out.println("Folder created: " + folder.getAbsolutePath());
             } else {
@@ -54,5 +53,10 @@ public class Hooks {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        byte[] screenshot = ((TakesScreenshot) DriverManager.driver.get()).getScreenshotAs(OutputType.BYTES);
+        String stepName = scenario.getName();
+        scenario.attach(screenshot, "image/png", "Screenshot for: " + stepName);
+
     }
 }
