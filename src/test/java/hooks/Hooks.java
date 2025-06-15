@@ -1,16 +1,19 @@
 package hooks;
 
+
 import driver.DriverManager;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
+import io.qameta.allure.Allure;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.io.FileHandler;
 import utils.TestParameters;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -21,13 +24,20 @@ public class Hooks {
         DriverManager.initiateDriver();
     }
 
-    @After
+    @After(order = 2)
+    public void attachScreenshot(Scenario scenario) {
+        if (scenario.isFailed()) {
+            byte[] screenshot = ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
+            Allure.addAttachment("Failure Screenshot", new ByteArrayInputStream(screenshot));
+        }
+    }
+    @After(order = 1)
     public void quitDriver() {
         DriverManager.quitDriver();
     }
 
     @AfterStep
-    public void takeScreenShot(Scenario scenario) {
+    public void takeScreenShot(Scenario scenario) throws IOException {
         TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
         File srcFile = ts.getScreenshotAs(OutputType.FILE);
         StringBuilder folderPath = new StringBuilder()
@@ -54,12 +64,8 @@ public class Hooks {
         }
 
         File destFile = new File(folderPath.append(File.separator).append(TestParameters.getScreeShotCount()).append(".png").toString());
-        try {
-            FileHandler.copy(srcFile, destFile);
-            System.out.println("Screenshot saved at: " + destFile.getAbsolutePath());
-            TestParameters.setScreeShotCount(TestParameters.getScreeShotCount() + 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileHandler.copy(srcFile, destFile);
+        System.out.println("Screenshot saved at: " + destFile.getAbsolutePath());
+        TestParameters.setScreeShotCount(TestParameters.getScreeShotCount() + 1);
     }
 }

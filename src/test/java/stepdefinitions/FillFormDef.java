@@ -4,15 +4,17 @@ package stepdefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.testng.Assert;
 import pages.BasePage;
+import utils.RetryTracker;
 
 
 public class FillFormDef extends BasePage {
 
-
     @Given("user launch the url")
     public void userLaunchTheUrl() {
         fillFormPage().userLaunchTheUrl();
+        Assert.fail("Failed");
     }
 
     @Then("user enter UserName and Password as {string} and {string}")
@@ -31,4 +33,9 @@ public class FillFormDef extends BasePage {
         // Write code here that turns the phrase above into concrete actions
     }
 
+    @Given("user fail the scenario in the middle")
+    public void userFailTheScenarioInTheMiddle() {
+        RetryTracker.count++;
+        Assert.assertTrue(RetryTracker.count >= 2, "Failing deliberately for retry: " + RetryTracker.count);
+    }
 }

@@ -15,7 +15,7 @@ public class Locators {
     private Locators() {
         try {
             FileInputStream f = new FileInputStream(
-                    System.getProperty("user.dir") + "/src/test/java/resources/Locators.properties");
+                    System.getProperty("user.dir") + "/src/test/resources/locators.properties");
             p.load(f);
         } catch (IOException err) {
             Assert.fail(err + "");
@@ -46,5 +46,4 @@ public class Locators {
         }
         return by;
     }
-
 }
