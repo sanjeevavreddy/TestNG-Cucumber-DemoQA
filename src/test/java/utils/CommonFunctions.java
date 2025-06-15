@@ -11,12 +11,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class CommonFunctions {
+    private static CommonFunctions instance;
     WebDriver driver;
 
     public CommonFunctions() {
         this.driver = DriverManager.getDriver();
     }
 
+    public static CommonFunctions getInstance() {
+        if (instance == null) {
+            instance = new CommonFunctions();
+        }
+        return instance;
+    }
 
     public WebElement findElement(By by) {
         WebElement element = driver.findElement(by);
@@ -30,14 +37,15 @@ public class CommonFunctions {
         highLightElement(element);
         return element;
     }
-    public void highLightElement(WebElement element){
+
+    public void highLightElement(WebElement element) {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(false)",element);
+        js.executeScript("arguments[0].scrollIntoView(false)", element);
         js.executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;')", element);
-        try{
+        try {
             Thread.sleep(500);
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
         }
         js.executeScript("arguments[0].setAttribute('style', 'background: ; border: ;')", element);
     }

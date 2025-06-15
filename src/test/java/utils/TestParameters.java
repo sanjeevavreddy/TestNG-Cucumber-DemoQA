@@ -5,7 +5,6 @@ public class TestParameters {
     private static ThreadLocal<String> gridURL = new ThreadLocal<>();
     private static ThreadLocal<Integer> screeShotCount = new ThreadLocal<>();
 
-
     public static void setBrowser(String browserName) {
         browser.set(browserName);
     }
@@ -13,7 +12,6 @@ public class TestParameters {
     public static String getBrowser() {
         return browser.get();
     }
-
 
     public static void setGridURL(String browserName) {
         gridURL.set(browserName);
@@ -23,7 +21,6 @@ public class TestParameters {
         return gridURL.get();
     }
 
-
     public static void setScreeShotCount(int count) {
         screeShotCount.set(count);
     }
@@ -31,7 +28,5 @@ public class TestParameters {
     public static int getScreeShotCount() {
         return screeShotCount.get();
     }
-
-
 
 }

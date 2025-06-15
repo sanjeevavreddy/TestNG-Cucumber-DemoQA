@@ -8,8 +8,8 @@ import utils.Locators;
 public class FillFormPage extends DriverManager {
 
     WebDriver driver;
-    Locators locators = new Locators();
-    CommonFunctions commonFunctions = new CommonFunctions();
+    Locators locators = Locators.getInstance();
+    CommonFunctions commonFunctions = CommonFunctions.getInstance();
 
     public FillFormPage() {
         this.driver = DriverManager.getDriver();

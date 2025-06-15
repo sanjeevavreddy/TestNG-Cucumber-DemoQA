@@ -5,7 +5,6 @@ import io.appium.java_client.android.options.UiAutomator2Options;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -55,7 +54,7 @@ public class MobileTest {
         File destFile = new File(System.getProperty("user.dir") + "/target/Screenshots/" + "screenshot.png");
         try {
             FileHandler.copy(srcFile, destFile);
-        }catch (IOException e){
+        } catch (IOException e) {
             Assert.fail(e.toString());
         }
         System.out.println("Screenshot saved at: " + destFile.getAbsolutePath());

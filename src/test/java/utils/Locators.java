@@ -7,18 +7,26 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-
 public class Locators {
 
-    Properties p = new Properties();
+    private static Locators instance;
+    private Properties p = new Properties();
 
-    public Locators() {
+    private Locators() {
         try {
-            FileInputStream f = new FileInputStream(System.getProperty("user.dir") + "/src/test/java/resources/Locators.properties");
+            FileInputStream f = new FileInputStream(
+                    System.getProperty("user.dir") + "/src/test/java/resources/Locators.properties");
             p.load(f);
-        }catch (IOException err){
-            Assert.fail(err+"");
+        } catch (IOException err) {
+            Assert.fail(err + "");
         }
+    }
+
+    public static Locators getInstance() {
+        if (instance == null) {
+            instance = new Locators();
+        }
+        return instance;
     }
 
     public By getLocator(String locatorName) {
@@ -38,4 +46,5 @@ public class Locators {
         }
         return by;
     }
+
 }
