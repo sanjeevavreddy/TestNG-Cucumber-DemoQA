@@ -13,6 +13,12 @@ Feature: Fill Form
   Scenario Outline: Fill Form1
     Given user launch the url
     Then user enter First and last name as "<FirstName>" and "<LastName>"
+    When user click on submit button
+    Then user should see the success message
+
+    Examples:
+      | FirstName | LastName |
+      | Sanjeev   | Reddy    |
 
     Examples:
       | FirstName | LastName |

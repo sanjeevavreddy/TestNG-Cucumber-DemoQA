@@ -5,11 +5,11 @@ import org.openqa.selenium.WebDriver;
 import utils.CommonFunctions;
 import utils.Locators;
 
-public class FillFormPage {
+public class FillFormPage extends DriverManager {
 
+    WebDriver driver;
     Locators locators = new Locators();
     CommonFunctions commonFunctions = new CommonFunctions();
-    private WebDriver driver;
 
     public FillFormPage() {
         this.driver = DriverManager.getDriver();

@@ -15,7 +15,6 @@ import java.io.IOException;
 
 public class Hooks {
 
-
     @Before
     public void initiateDriver() {
         DriverManager.initiateDriver();
@@ -30,7 +29,7 @@ public class Hooks {
 
     @AfterStep
     public void takeScreenShot(Scenario scenario) {
-        TakesScreenshot ts = (TakesScreenshot) DriverManager.driver.get();
+        TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
         File srcFile = ts.getScreenshotAs(OutputType.FILE);
         File folder = new File(System.getProperty("user.dir") + "/target/Screenshots/"+TestParameters.getBrowser()+"/"+scenario.getName().replaceAll("\\s+",""));
         if (!folder.exists()) {
@@ -54,7 +53,7 @@ public class Hooks {
             e.printStackTrace();
         }
 
-        byte[] screenshot = ((TakesScreenshot) DriverManager.driver.get()).getScreenshotAs(OutputType.BYTES);
+        byte[] screenshot = ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
         String stepName = scenario.getName();
         scenario.attach(screenshot, "image/png", "Screenshot for: " + stepName);
 
