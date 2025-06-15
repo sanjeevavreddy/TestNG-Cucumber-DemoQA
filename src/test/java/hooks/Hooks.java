@@ -5,6 +5,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.io.FileHandler;
@@ -18,20 +19,29 @@ public class Hooks {
     @Before
     public void initiateDriver() {
         DriverManager.initiateDriver();
-        TestParameters.setScreeShotCount(1);
     }
 
     @After
     public void quitDriver() {
         DriverManager.quitDriver();
-
     }
 
     @AfterStep
     public void takeScreenShot(Scenario scenario) {
         TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
         File srcFile = ts.getScreenshotAs(OutputType.FILE);
-        File folder = new File(System.getProperty("user.dir") + "/target/Screenshots/"+TestParameters.getBrowser()+"/"+scenario.getName().replaceAll("\\s+",""));
+        StringBuilder folderPath = new StringBuilder()
+                .append(System.getProperty("user.dir"))
+                .append(File.separator)
+                .append("target")
+                .append(File.separator)
+                .append("Screenshots")
+                .append(File.separator)
+                .append(TestParameters.getBrowser())
+                .append(File.separator)
+                .append(scenario.getName().replaceAll("\\s+", ""));
+
+        File folder = new File(folderPath.toString());
         if (!folder.exists()) {
             boolean created = folder.mkdirs();
             if (created) {
@@ -43,19 +53,13 @@ public class Hooks {
             System.out.println("Folder already exists: " + folder.getAbsolutePath());
         }
 
-
-        File destFile = new File(System.getProperty("user.dir") + "/target/Screenshots/"+TestParameters.getBrowser()+"/"+scenario.getName().replaceAll("\\s+","")+"/" + TestParameters.getScreeShotCount() + ".png");
+        File destFile = new File(folderPath.append(File.separator).append(TestParameters.getScreeShotCount()).append(".png").toString());
         try {
             FileHandler.copy(srcFile, destFile);
             System.out.println("Screenshot saved at: " + destFile.getAbsolutePath());
-            TestParameters.setScreeShotCount(TestParameters.getScreeShotCount()+1);
+            TestParameters.setScreeShotCount(TestParameters.getScreeShotCount() + 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        byte[] screenshot = ((TakesScreenshot) DriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
-        String stepName = scenario.getName();
-        scenario.attach(screenshot, "image/png", "Screenshot for: " + stepName);
-
     }
 }

@@ -14,7 +14,7 @@ import java.net.URL;
 import java.time.Duration;
 
 public class DriverManager {
-    static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    public final static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static void initiateDriver() {
         if (TestParameters.getGridURL().isEmpty()) {

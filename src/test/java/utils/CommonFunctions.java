@@ -18,12 +18,12 @@ public class CommonFunctions {
         this.driver = DriverManager.getDriver();
     }
 
-    public static CommonFunctions getInstance() {
-        if (instance == null) {
-            instance = new CommonFunctions();
-        }
-        return instance;
-    }
+//    public static CommonFunctions getInstance() {
+//        if (instance == null) {
+//            instance = new CommonFunctions();
+//        }
+//        return instance;
+//    }
 
     public WebElement findElement(By by) {
         WebElement element = driver.findElement(by);

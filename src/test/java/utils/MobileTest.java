@@ -36,6 +36,7 @@ public class MobileTest {
         driver.quit();
     }
 
+    @SuppressWarnings("unused")
     private static void takeScreenShot(AndroidDriver driver) {
 
         File srcFile = driver.getScreenshotAs(OutputType.FILE);

@@ -15,10 +15,10 @@ public class FillFormDef extends BasePage {
         fillFormPage().userLaunchTheUrl();
     }
 
-    @Then("user enter First and last name as {string} and {string}")
-    public void userEnterFirstAndLastNameAsAnd(String firstName, String LastName) {
-        fillFormPage().userEnterFirstName(firstName);
-        fillFormPage().userEnterName(LastName);
+    @Then("user enter UserName and Password as {string} and {string}")
+    public void userEnterFirstAndLastNameAsAnd(String userName, String password) {
+        fillFormPage().userEnterFirstName(userName);
+        fillFormPage().userEnterName(password);
     }
 
     @When("user click on submit button")
