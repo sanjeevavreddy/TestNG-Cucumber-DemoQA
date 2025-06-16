@@ -9,10 +9,13 @@ import org.testng.annotations.*;
 import utils.RetryAnalyzer;
 import utils.TestParameters;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @CucumberOptions(
-        features = "src/test/resources/features",
-        glue = {"stepdefinitions", "hooks"},
+        features = "classpath:features",
+        glue = {"stepdefinitions", "hooks"}
 //        plugin = {
 //                "pretty",
 //                "html:target/cucumber-reports/report.html"
@@ -20,9 +23,9 @@ import utils.TestParameters;
 //        plugin = {
 //                "pretty",
 //                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm" // Key plugin
-//        },
-        monochrome = true,
-        tags = ""
+//        }
+//        monochrome = true,
+//        tags = ""
 )
 //@Listeners({AllureTestNg.class})
 public class TestRunner extends AbstractTestNGCucumberTests {
